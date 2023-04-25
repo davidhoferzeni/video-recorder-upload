@@ -31,7 +31,8 @@ const VideoRecorderClient = () => {
       body: formData
     })
     console.log(response);
-    router.push('/done')
+    resetVideo();
+    router.push('/done');
   }
 
   return (
