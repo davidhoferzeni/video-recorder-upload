@@ -41,4 +41,8 @@ body {
     top: unset;
     bottom: 5%;
   }
+
+  .vid-recorder,div[class*="timer__RecIcon"] {
+    margin-top: 15px;
+  }
 }
