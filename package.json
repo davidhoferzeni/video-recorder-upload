@@ -25,7 +25,5 @@
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4"
   },
-  "devDependencies": {
-    "@types/react-video-recorder": "^3.19.0"
-  }
+  "devDependencies": {}
 }
