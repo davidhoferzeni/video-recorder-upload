@@ -18,12 +18,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
   color: #c78665;
 }
 
@@ -31,10 +28,17 @@ body {
   .btn {
     @apply font-bold py-2 px-4 rounded;
   }
+
   .btn-blue {
     @apply bg-blue-500 text-white;
   }
+
   .btn-blue:hover {
     @apply bg-blue-700;
+  }
+
+  .vid-recorder,div[class*="render-actions__ActionsWrapper"]:has(div[class*="stop"]) {
+    top: unset;
+    bottom: 5%;
   }
 }
