@@ -1,6 +1,6 @@
 'use client';
 
-import ReactVideoRecorder, { ReactVideoRecorderProps } from 'react-video-recorder';
+import ReactVideoRecorder from 'react-video-recorder';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
