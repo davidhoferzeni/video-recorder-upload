@@ -37,4 +37,4 @@ body {
   .btn-blue:hover {
     @apply bg-blue-700;
   }
-
+}
