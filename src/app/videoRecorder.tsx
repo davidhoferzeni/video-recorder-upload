@@ -4,7 +4,7 @@ import path from 'path';
 import ReactVideoRecorder from 'react-video-recorder';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import ChallengePrompts, { ChallengeQuery } from '@/const/challenges';
+import ChallengePrompts, { ChallengeQuery, ChallengeTitle } from '@/const/challenges';
 import fss from '@/configuration/fileServer.json'
 
 const VideoRecorderClient = () => {
@@ -23,9 +23,8 @@ const VideoRecorderClient = () => {
       console.warn('No video found!');
     }
     const formData = new FormData();
-    const timeStamp = new Date().toISOString().replace(/[-:T]/g, '').replace(/\.\d\d\dZ/, '');
     formData.append('fileType', 'mp4');
-    formData.append('fileName', `${timeStamp}_${randomChallenge.id}_Video`);
+    formData.append('fileName', ChallengeTitle(randomChallenge.id));
     formData.append('fileToUpload', currentVideo!);
     formData.append('submit', 'Upload Video');
     const uploadUrl = new URL(fss.url);
