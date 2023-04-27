@@ -13,7 +13,7 @@ export default function Stream() {
   }
 
   function nextVideo() {
-    console.log('lol');
+    //TODO: Add file reader here (needs to check every time!)
     if (currentVideoSource === 'https://sandbox.luvdav.com/File_Upload/uploads/20230427113849_1_video.mp4') {
       setCurrentVideo('https://sandbox.luvdav.com/File_Upload/uploads/20230427100312_2_video.mp4');
     } else {
