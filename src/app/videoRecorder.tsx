@@ -3,20 +3,20 @@
 import ReactVideoRecorder from 'react-video-recorder';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import ChallengePrompts, { ChallengeQuery } from '@/const/challenges';
 
 const VideoRecorderClient = () => {
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
   const [isRecording, setIsRecording] = React.useState<boolean>(false);
 
+  const randomChallenge = ChallengePrompts[Math.floor(Math.random() * ChallengePrompts.length)];
   const router = useRouter();
 
   function resetVideo() {
-    console.log('resetting video');
     setCurrentVideo(null);
   }
 
   function handleClick() {
-    console.log('videoBlob', currentVideo);
     if (!currentVideo) {
       console.warn('No video found!');
     }
@@ -31,9 +31,8 @@ const VideoRecorderClient = () => {
       mode: 'no-cors',
       body: formData
     })
-    console.log(response);
     resetVideo();
-    router.push('/done');
+    router.push(`/done?${ChallengeQuery}=${randomChallenge.id}`);
   }
 
   return (
@@ -50,7 +49,7 @@ const VideoRecorderClient = () => {
       />
       {/* {isRecording &&
         <p className='text-6xl'>
-          {'Hello it\'s me!'}
+          {randomChallenge.label}
         </p>
       } */}
       {currentVideo &&
