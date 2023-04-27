@@ -1,4 +1,5 @@
 import ChallengeLabels from '@/configuration/challenges.json';
+import ffs from '@/configuration/fileserver.json';
 
 function createChallenges(challengeLabels: string[]) {
     let counter: number = 0;
@@ -11,16 +12,48 @@ function createChallenges(challengeLabels: string[]) {
     return challengeList;
 }
 
+const challengeList = createChallenges(ChallengeLabels);
+
 export interface ChallengePrompt {
     id: number;
     label: string;
 }
+
+export interface ChallengeData {
+    id: number;
+    label: string;
+    dateRecorded: Date;
+    title: string;
+    url: string;
+}
+
 export const ChallengeQuery = 'cid';
-export const ChallengeRegex = /(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})(?<hour>\d{2})(?<minute>\d{2})(?<second>\d{2})_(?<lol>\d+)_/u;
-export function ChallengeTitle(challengeId: number): string {
-    const timeStamp = new Date().toISOString().replace(/[-:T]/g, '').replace(/\.\d\d\dZ/, '');
-    return `${timeStamp}_${challengeId}_Video`;
+const ChallengeRegex = /(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})(?<hour>\d{2})(?<minute>\d{2})(?<second>\d{2})_(?<id>\d+)_/u;
+
+export function GetChallengeByTitle(challengeTitle: string): ChallengeData {
+    const d = ChallengeRegex.exec(challengeTitle)?.groups;
+    const challengeId= parseInt(d?.id ?? "");
+    const challenge = challengeList.find(c => c.id === challengeId);
+    const challengeDate = new Date(`${d?.year}-${d?.month}-${d?.day}T${d?.hour}:${d?.minute}:${d?.second}Z`);
+    return {
+        id: challengeId,
+        label: challenge?.label ?? '',
+        dateRecorded: challengeDate,
+        title: challengeTitle,
+        url: `${ffs.url}/${ffs.uploadDirectory}/${challengeTitle}`
+    };
 };
 
-const challengeList = createChallenges(ChallengeLabels);
+export function CreateChallenge(challengeId: number): ChallengeData {
+    const dateRecorded = new Date();
+    const timeStamp = new Date().toISOString().replace(/[-:T]/g, '').replace(/\.\d\d\dZ/, '');
+    return {
+        id: challengeId,
+        label: 'lol',
+        dateRecorded: dateRecorded,
+        title: `${timeStamp}_${challengeId}_Video`,
+        url: `${ffs.url}/${ffs.uploadDirectory}/${timeStamp}_${challengeId}_Video`
+    };
+};
+
 export default challengeList;

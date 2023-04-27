@@ -4,8 +4,8 @@ import path from 'path';
 import ReactVideoRecorder from 'react-video-recorder';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import ChallengePrompts, { ChallengeQuery, ChallengeTitle } from '@/const/challenges';
-import fss from '@/configuration/fileServer.json'
+import ChallengePrompts, { ChallengeQuery, CreateChallenge } from '@/const/challenges';
+import fss from '@/configuration/fileserver.json'
 
 const VideoRecorderClient = () => {
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
@@ -22,9 +22,10 @@ const VideoRecorderClient = () => {
     if (!currentVideo) {
       console.warn('No video found!');
     }
+    const createdChallenge = CreateChallenge(randomChallenge.id)
     const formData = new FormData();
     formData.append('fileType', 'mp4');
-    formData.append('fileName', ChallengeTitle(randomChallenge.id));
+    formData.append('fileName', createdChallenge.title);
     formData.append('fileToUpload', currentVideo!);
     formData.append('submit', 'Upload Video');
     const uploadUrl = new URL(fss.url);
