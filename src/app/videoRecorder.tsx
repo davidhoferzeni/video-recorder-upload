@@ -1,9 +1,11 @@
 'use client';
 
+import path from 'path';
 import ReactVideoRecorder from 'react-video-recorder';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import ChallengePrompts, { ChallengeQuery } from '@/const/challenges';
+import fss from '@/configuration/fileServer.json'
 
 const VideoRecorderClient = () => {
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
@@ -16,23 +18,31 @@ const VideoRecorderClient = () => {
     setCurrentVideo(null);
   }
 
-  function handleClick() {
+  async function handleClick() {
     if (!currentVideo) {
       console.warn('No video found!');
     }
     const formData = new FormData();
     const timeStamp = new Date().toISOString().replace(/[-:T]/g, '').replace(/\.\d\d\dZ/, '');
     formData.append('fileType', 'mp4');
-    formData.append('fileName', `${timeStamp}_Video`);
+    formData.append('fileName', `${timeStamp}_${randomChallenge.id}_Video`);
     formData.append('fileToUpload', currentVideo!);
     formData.append('submit', 'Upload Video');
-    const response = fetch('https://sandbox.luvdav.com/File_Upload/upload.php', {
+    const uploadUrl = new URL(fss.url);
+    uploadUrl.pathname = path.join(uploadUrl.pathname, fss.uploadAction);
+    const response = await fetch(uploadUrl, {
       method: 'POST',
-      mode: 'no-cors',
       body: formData
     })
+    if (!response.ok) {
+      const message = "Error during upload!";
+      console.warn(message);
+      throw message
+    }
     resetVideo();
-    router.push(`/done?${ChallengeQuery}=${randomChallenge.id}`);
+    let uploadParams = new URLSearchParams();
+    uploadParams.set(ChallengeQuery, randomChallenge.id.toString());
+    router.push(`/done?${uploadParams.toString()}`);
   }
 
   return (

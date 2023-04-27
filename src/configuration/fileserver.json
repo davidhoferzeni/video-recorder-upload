@@ -1,0 +1,6 @@
+{
+    "url": "https://sandbox.luvdav.com/File_Upload/",
+    "uploadAction": "upload.php",
+    "listAction": "get.php",
+    "uploadDirectory": "uploads"
+}
