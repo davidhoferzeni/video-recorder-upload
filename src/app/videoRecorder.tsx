@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 const VideoRecorderClient = () => {
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
+  const [isRecording, setIsRecording] = React.useState<boolean>(false);
 
   const router = useRouter();
 
@@ -43,8 +44,15 @@ const VideoRecorderClient = () => {
         onRecordingComplete={(videoBlob: Blob) => {
           setCurrentVideo(videoBlob);
         }}
+        onStartRecording={() => {setIsRecording(true)}}
+        onStopRecording={() => {setIsRecording(false)}}
         onStopReplaying={resetVideo}
       />
+      {/* {isRecording &&
+        <p className='text-6xl'>
+          {'Hello it\'s me!'}
+        </p>
+      } */}
       {currentVideo &&
         <button
           onClick={handleClick}
