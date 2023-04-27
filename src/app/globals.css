@@ -45,4 +45,9 @@ body {
   .vid-recorder,div[class*="timer__RecIcon"] {
     margin-top: 15px;
   }
+
+  .vid-recorder,div[class*="switch-camera-view"] {
+    display: none;
+  }
+
 }
