@@ -11,6 +11,8 @@ export default function VideoStreamClient({ videoSource, onVideoEnd, loop }: Vid
         className='flex-1'
         src={videoSource}
         autoPlay
+        controls
+        muted
         onEnded={onVideoEnd}
         loop={loop ?? false}
       >
