@@ -1,13 +1,14 @@
 'use client';
 
+import useSWR, { Fetcher } from 'swr'
 import React from "react";
-import VideoStreamClient from "./videoStream";
 import { useSearchParams } from 'next/navigation';
 import fss from '@/configuration/fileserver.json'
 import path from "path";
-import challengeList, { ChallengeData, GetChallengeByTitle } from '@/const/challenges';
-import { get } from "http";
+import { ChallengeData, GetChallengeByTitle } from '@/const/challenges';
+import VideoPlayerClient from "./videoPlayer";
 
+const fetcher: Fetcher<ChallengeData[]> = () => getVideos();
 
 async function getVideos() {
   const listUrl = new URL(fss.url);
@@ -16,33 +17,35 @@ async function getVideos() {
   const challengeRecords = await response.json();
   const videoTitles = challengeRecords.uploads;
   const videoList = videoTitles.map(GetChallengeByTitle);
-  console.log(videoList);
   return videoList;
 }
 
-export default async function Stream() {
-
+export default function Stream() {
   const searchParams = useSearchParams();
   const videoSource = searchParams.get("src") || "";
-  let currentVideo: ChallengeData;
-  const videos = await getVideos();
-  if (!videoSource) {
-    // Initiate both requests in parallel
-    currentVideo = videos[0];
+
+  const { data, error, isLoading } = useSWR(videoSource? null: 'load', fetcher, { refreshInterval: 120000 });
+  if (error) return <h1>failed to load</h1>;
+  if (isLoading) return <h1>loading...</h1>;
+
+  let videos: ChallengeData[];
+
+  if (!videoSource && data) {
+    videos = data;
   } else {
     const challengeSource = GetChallengeByTitle(videoSource);
-    currentVideo = challengeSource;
+    videos = [challengeSource];
   }
-  function nextVideo() {
-    currentVideo = videos[1];
+
+  if (videos) {
+    return (
+      <VideoPlayerClient
+        videos={videos}
+      ></VideoPlayerClient>
+    );
+  } else {
+    return (
+      <div>Is loading</div>
+    );
   }
-  
-  return (
-    <VideoStreamClient
-      videoSource={currentVideo?.url ?? ""}
-      onVideoEnd={nextVideo}
-    >
-      <h1 className='text-6xl'>{currentVideo?.label ?? ""}</h1>
-    </VideoStreamClient>
-  );
 }
