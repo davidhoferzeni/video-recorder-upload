@@ -8,15 +8,16 @@ interface VideoStreamClientProps extends PropsWithChildren {
 export default function VideoStreamClient({ videoSource, onVideoEnd, loop }: VideoStreamClientProps) {
   return (
     <video
-        className='flex-1'
-        src={videoSource}
-        autoPlay
-        controls
-        muted
-        onEnded={onVideoEnd}
-        loop={loop ?? false}
-      >
-        Your browser does not support the video tag.
-      </video>
+      className='flex-1'
+      src={videoSource}
+      autoPlay
+      controls
+      muted
+      playsInline
+      onEnded={onVideoEnd}
+      loop={loop ?? false}
+    >
+      Your browser does not support the video tag.
+    </video>
   );
 }
