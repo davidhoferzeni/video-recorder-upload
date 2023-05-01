@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR, { Fetcher } from 'swr'
+import useSWR, { Fetcher } from 'swr';
 import React from "react";
 import { useSearchParams } from 'next/navigation';
 import fss from '@/configuration/fileserver.json'
@@ -24,7 +24,7 @@ export default function Stream() {
   const searchParams = useSearchParams();
   const videoSource = searchParams.get("src") || "";
 
-  const { data, error, isLoading } = useSWR(videoSource? null: 'load', fetcher, { refreshInterval: 120000 });
+  const { data, error, isLoading } = useSWR(videoSource ? null : 'load', fetcher, { refreshInterval: 120000 });
   if (error) return <h1>failed to load</h1>;
   if (isLoading) return <h1>loading...</h1>;
 
