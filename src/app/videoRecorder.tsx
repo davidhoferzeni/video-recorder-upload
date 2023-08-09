@@ -95,7 +95,7 @@ const VideoRecorderClient = () => {
         }}
         onStopReplaying={resetVideo}
       />
-      {isRecording && <p className="text-6xl">{randomChallenge.label}</p>}
+      {isRecording && <p className="text-6xl">{randomChallenge.challenge}</p>}
       {currentVideo && (
         <div className="flex flex-row items-center justify-between p-8 gap-4">
           <p className="text-2xl">Sending ...</p>
