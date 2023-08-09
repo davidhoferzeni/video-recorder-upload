@@ -2,7 +2,7 @@
 
 import path from "path";
 import ReactVideoRecorder from "react-video-recorder";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ChallengePrompts, {
   ChallengeQuery,
@@ -12,6 +12,12 @@ import fss from "@/configuration/fileserver.json";
 import LoadingSpinner from "@/component/LoadingSpinner/LoadingSpinner";
 
 const VideoRecorderClient = () => {
+  const [countdownAudio, setAudio] = useState<HTMLAudioElement|null>(null);
+
+  useEffect(() => {
+    setAudio(new Audio("./countdown.mp3")); // only call client
+  }, []);
+
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
   const [isRecording, setIsRecording] = React.useState<boolean>(false);
 
@@ -29,11 +35,15 @@ const VideoRecorderClient = () => {
 
   async function automaticUpload() {
     await Promise.all([sendVideo(), wait(5000)]);
+    if (countdownAudio) {
+      countdownAudio.pause();
+      countdownAudio.currentTime = 0;
+    }
     resetVideo();
     changeSite();
   }
 
-  function changeSite(){
+  function changeSite() {
     let uploadParams = new URLSearchParams();
     uploadParams.set(ChallengeQuery, randomChallenge.id.toString());
     router.push(`/done?${uploadParams.toString()}`);
@@ -72,6 +82,7 @@ const VideoRecorderClient = () => {
           automaticUpload();
         }}
         onStartRecording={() => {
+          countdownAudio?.play();
           setIsRecording(true);
         }}
         onStopRecording={() => {
@@ -79,14 +90,10 @@ const VideoRecorderClient = () => {
         }}
         onStopReplaying={resetVideo}
       />
-      {isRecording &&
-        <p className='text-6xl'>
-          {randomChallenge.label}
-        </p>
-      }
+      {isRecording && <p className="text-6xl">{randomChallenge.label}</p>}
       {currentVideo && (
         <div className="flex flex-row items-center justify-between p-8 gap-4">
-          <p className='text-2xl'>Sending ...</p>
+          <p className="text-2xl">Sending ...</p>
           <LoadingSpinner></LoadingSpinner>
         </div>
       )}
