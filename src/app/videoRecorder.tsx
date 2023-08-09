@@ -23,7 +23,7 @@ const VideoRecorderClient = () => {
     setCurrentVideo(null);
   }
 
-  function wait(ms) {
+  function wait(ms: number) {
     return new Promise((resolve, reject) => setTimeout(resolve, ms));
   }
 
@@ -84,7 +84,7 @@ const VideoRecorderClient = () => {
           {randomChallenge.label}
         </p>
       }
-      {currentVideo==null && (
+      {currentVideo && (
         <div className="flex flex-row items-center justify-between p-8 gap-4">
           <p className='text-2xl'>Sending ...</p>
           <LoadingSpinner></LoadingSpinner>
