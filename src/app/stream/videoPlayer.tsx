@@ -33,7 +33,7 @@ export default function VideoPlayerClient({
         onVideoEnd={nextVideo}
         loop={videos.length === 1}
       ></VideoStreamClient>
-      <h1 className="text-6xl">{currentVideo.label}</h1>
+      <h1 className="text-3xl">{currentVideo.label}</h1>
       {/* <h1 className="text-6xl">{currentVideo.dateRecorded.toLocaleString()}</h1> */}
     </div>
   );

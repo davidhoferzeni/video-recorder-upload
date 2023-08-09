@@ -1,12 +1,7 @@
 import ChallengeLabels from "@/configuration/challenges.json";
 import ffs from "@/configuration/fileserver.json";
 
-interface ChallengeLabel {
-  id: number;
-  challenge: string;
-}
-
-const challengeList = ChallengeLabels as unknown as ChallengeLabel[];
+const challengeList = ChallengeLabels as unknown as ChallengePrompt[];
 
 export interface ChallengePrompt {
   id: number;

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ChallengePrompts, {
   ChallengeQuery,
+  ChallengePrompt,
   CreateChallenge,
 } from "@/const/challenges";
 import fss from "@/configuration/fileserver.json";
@@ -20,6 +21,14 @@ const VideoRecorderClient = () => {
 
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
   const [isRecording, setIsRecording] = React.useState<boolean>(false);
+  const [randomChallenge, setRandomChallenge] =
+    React.useState<ChallengePrompt | null>(null);
+
+  useEffect(() => {
+    setRandomChallenge(
+      ChallengePrompts[Math.floor(Math.random() * ChallengePrompts.length)]
+    );
+  }, []);
   useEffect(() => {
     if (currentVideo) {
       automaticUpload();
@@ -27,8 +36,6 @@ const VideoRecorderClient = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideo]);
 
-  const randomChallenge =
-    ChallengePrompts[Math.floor(Math.random() * ChallengePrompts.length)];
   const router = useRouter();
 
   function resetVideo() {
@@ -51,7 +58,9 @@ const VideoRecorderClient = () => {
 
   function changeSite() {
     let uploadParams = new URLSearchParams();
-    uploadParams.set(ChallengeQuery, randomChallenge.id.toString());
+    if (randomChallenge) {
+      uploadParams.set(ChallengeQuery, randomChallenge.id.toString());
+    }
     router.push(`/done?${uploadParams.toString()}`);
   }
 
@@ -59,7 +68,7 @@ const VideoRecorderClient = () => {
     if (!currentVideo) {
       console.warn("No video found!");
     }
-    const createdChallenge = CreateChallenge(randomChallenge.id);
+    const createdChallenge = CreateChallenge(randomChallenge?.id || 0);
     const formData = new FormData();
     formData.append("fileType", "mp4");
     formData.append("fileName", createdChallenge.title);
@@ -95,7 +104,7 @@ const VideoRecorderClient = () => {
         }}
         onStopReplaying={resetVideo}
       />
-      {isRecording && <p className="text-6xl">{randomChallenge.challenge}</p>}
+      {isRecording && <p className="text-3xl">{randomChallenge.challenge}</p>}
       {currentVideo && (
         <div className="flex flex-row items-center justify-between p-8 gap-4">
           <p className="text-2xl">Sending ...</p>
