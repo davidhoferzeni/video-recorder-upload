@@ -12,7 +12,7 @@ import fss from "@/configuration/fileserver.json";
 import LoadingSpinner from "@/component/LoadingSpinner/LoadingSpinner";
 
 const VideoRecorderClient = () => {
-  const [countdownAudio, setAudio] = useState<HTMLAudioElement|null>(null);
+  const [countdownAudio, setAudio] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setAudio(new Audio("./countdown.mp3")); // only call client
@@ -20,6 +20,12 @@ const VideoRecorderClient = () => {
 
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
   const [isRecording, setIsRecording] = React.useState<boolean>(false);
+  useEffect(() => {
+    if (currentVideo) {
+      automaticUpload();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentVideo]);
 
   const randomChallenge =
     ChallengePrompts[Math.floor(Math.random() * ChallengePrompts.length)];
@@ -79,7 +85,6 @@ const VideoRecorderClient = () => {
         wrapperClassName={"vid-recorder flex-auto h-64 btn-low"}
         onRecordingComplete={(videoBlob: Blob) => {
           setCurrentVideo(videoBlob);
-          automaticUpload();
         }}
         onStartRecording={() => {
           countdownAudio?.play();
