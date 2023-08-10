@@ -11,6 +11,7 @@ import ChallengePrompts, {
 } from "@/const/challenges";
 import fss from "@/configuration/fileserver.json";
 import LoadingSpinner from "@/component/LoadingSpinner/LoadingSpinner";
+import VideoActions from "@/component/VideoActions/VideoActions";
 
 const VideoRecorderClient = () => {
   const [countdownAudio, setAudio] = useState<HTMLAudioElement | null>(null);
@@ -91,6 +92,7 @@ const VideoRecorderClient = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 gap-4">
       <ReactVideoRecorder
+        renderActions={VideoActions}
         timeLimit={10000}
         wrapperClassName={"vid-recorder flex-auto h-64 btn-low"}
         onRecordingComplete={(videoBlob: Blob) => {
