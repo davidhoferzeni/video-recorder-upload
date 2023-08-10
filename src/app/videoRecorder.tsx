@@ -83,7 +83,8 @@ const VideoRecorderClient = () => {
     if (!response.ok) {
       const message = "Error during upload!";
       console.warn(message);
-      throw message;
+      await wait(5000);
+      await sendVideo();
     }
   }
 
