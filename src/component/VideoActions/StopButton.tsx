@@ -35,8 +35,10 @@ Button.defaultProps = {
   backgroundColor: "white",
 };
 
-export default ({ ...props }) => (
+const StopButton = ({ ...props }) => (
   <Border>
     <Button {...props} />
   </Border>
 );
+
+export default StopButton; 
