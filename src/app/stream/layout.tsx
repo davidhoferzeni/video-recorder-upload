@@ -1,4 +1,3 @@
-import "./globals.css";
 import { Mulish } from "next/font/google";
 import Image from "next/image";
 
@@ -16,11 +15,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${mulish.className} overflow-hidden`}>
-        <div className="m-4 absolute w-24 h-24 top-0 left-0 z-10">
-          <Image fill={true} src="/logo.png" alt="Logo" />
-        </div>
-        <div className="absolute w-72 h-72 -top-4 -right-24 z-10">
+      <body className={mulish.className}>
+        <div className="absolute w-72 h-72 -bottom-4 -left-24 z-10 rotate-180">
           <Image fill={true} src="/flowers.png" alt="Flowers" />
         </div>
         {children}
