@@ -90,7 +90,7 @@ const VideoRecorderClient = () => {
   }
 
   return (
-    <main className="flex min-h-[100lvh] max-h-[100lvh] flex-col items-center justify-between p-8 gap-4">
+    <main className="flex min-h-screen max-h-screen flex-col items-center justify-between p-8 gap-4">
       <ReactVideoRecorder
         renderActions={VideoActions}
         timeLimit={10000}
