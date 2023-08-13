@@ -31,5 +31,6 @@
   { "id": 80, "challenge": "Zeige die Hochzeitstischdekoration." },
   { "id": 86, "challenge": "Tanze mit einem Freund." },
   { "id": 93, "challenge": "Tanze mit einem Nachbarn." },
-  { "id": 94, "challenge": "Zeige dein Highlight der Hochzeitslocation." }
+  { "id": 94, "challenge": "Zeige dein Highlight der Hochzeitslocation." }, 
+{ "id": 101, "challenge": "Zeige deinen Liebling vom Sweet Table/Candy Bar."} 
 ]
