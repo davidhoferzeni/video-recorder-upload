@@ -14,11 +14,11 @@ import LoadingSpinner from "@/component/LoadingSpinner/LoadingSpinner";
 import VideoActions from "@/component/VideoActions/VideoActions";
 
 const VideoRecorderClient = () => {
-  const [countdownAudio, setAudio] = useState<HTMLAudioElement | null>(null);
+  // const [countdownAudio, setAudio] = useState<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    setAudio(new Audio("./countdown.mp3")); // only call client
-  }, []);
+  // useEffect(() => {
+  //   setAudio(new Audio("./countdown.mp3")); // only call client
+  // }, []);
 
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
   const [isRecording, setIsRecording] = React.useState<boolean>(false);
@@ -49,10 +49,10 @@ const VideoRecorderClient = () => {
 
   async function automaticUpload() {
     await Promise.all([sendVideo(), wait(5000)]);
-    if (countdownAudio) {
-      countdownAudio.pause();
-      countdownAudio.currentTime = 0;
-    }
+    // if (countdownAudio) {
+    //   countdownAudio.pause();
+    //   countdownAudio.currentTime = 0;
+    // }
     resetVideo();
     changeSite();
   }
@@ -90,7 +90,7 @@ const VideoRecorderClient = () => {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8 gap-4">
+    <main className="flex min-h-[100lvh] max-h-[100lvh] flex-col items-center justify-between p-8 gap-4">
       <ReactVideoRecorder
         renderActions={VideoActions}
         timeLimit={10000}
@@ -99,7 +99,7 @@ const VideoRecorderClient = () => {
           setCurrentVideo(videoBlob);
         }}
         onStartRecording={() => {
-          countdownAudio?.play();
+          // countdownAudio?.play();
           setIsRecording(true);
         }}
         onStopRecording={() => {
