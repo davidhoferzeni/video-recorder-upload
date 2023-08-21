@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${mulish.className} min-h-[100dvh] max-h-screen`}>
+      <body className={`${mulish.className} min-h-[100dvh] max-h-[100dvh]`}>
 <div className="min-h-[100dvh] max-h-[100dvh]" >
         <div className="m-2 fixed w-24 h-24 top-0 left-0 z-10">
           <Image fill={true} src="/logo.png" alt="Logo" />

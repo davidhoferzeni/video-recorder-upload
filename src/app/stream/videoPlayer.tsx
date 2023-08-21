@@ -21,19 +21,19 @@ export default function VideoPlayerClient({
   }
   if (videos.length <= 0) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center p-8 gap-4">
+      <div className="flex min-h-[100dvh] max-h-[100dvh] flex-col items-center justify-center p-8 gap-4">
         <h1 className="text-6xl">Keine Videos verfügbar!</h1>
       </div>
     );
   }
   return (
-    <div className="flex min-h-screen max-h-screen flex-col items-center justify-center p-8 gap-4">
+    <div className="flex min-h-[100dvh] max-h-[100dvh] flex-col items-center justify-center p-8 gap-4">
       <VideoStreamClient
         videoSource={currentVideo.url}
         onVideoEnd={nextVideo}
         loop={videos.length === 1}
       ></VideoStreamClient>
-      <h1 className="flex-1 text-3xl">{currentVideo.label}</h1>
+      <h1 className="flex-1 text-3xl text-center">{currentVideo.label}</h1>
       {/* <h1 className="text-6xl">{currentVideo.dateRecorded.toLocaleString()}</h1> */}
     </div>
   );
