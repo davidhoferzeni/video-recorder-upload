@@ -30,11 +30,11 @@ body {
   }
 
   .btn-blue {
-    @apply bg-blue-500 text-white;
+    @apply bg-[#c78665] text-white;
   }
 
   .btn-blue:hover {
-    @apply bg-blue-700;
+    @apply bg-[#c78665];
   }
 
   .vid-recorder,div[class*="render-actions__ActionsWrapper"]:has(div[class*="stop"]) {
