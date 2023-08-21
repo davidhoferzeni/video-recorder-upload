@@ -22,6 +22,7 @@ const VideoRecorderClient = () => {
 
   const [currentVideo, setCurrentVideo] = React.useState<Blob | null>(null);
   const [isRecording, setIsRecording] = React.useState<boolean>(false);
+  const [isUploading, setIsUploading] = React.useState<boolean>(false);
   const [randomChallenge, setRandomChallenge] =
     React.useState<ChallengePrompt | null>(null);
 
@@ -31,9 +32,9 @@ const VideoRecorderClient = () => {
     );
   }, []);
   useEffect(() => {
-    if (currentVideo) {
-      automaticUpload();
-    }
+    // if (currentVideo) {
+    //   upload();
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideo]);
 
@@ -47,7 +48,8 @@ const VideoRecorderClient = () => {
     return new Promise((resolve, reject) => setTimeout(resolve, ms));
   }
 
-  async function automaticUpload() {
+  async function upload() {
+    setIsUploading(true);
     await Promise.all([sendVideo(), wait(5000)]);
     // if (countdownAudio) {
     //   countdownAudio.pause();
@@ -55,6 +57,22 @@ const VideoRecorderClient = () => {
     // }
     resetVideo();
     changeSite();
+    setIsUploading(false);
+  }
+
+  async function share() {
+    if (!currentVideo) {
+      return;
+    }
+    var file = new File([currentVideo], "video.webm", {type: 'video/webm'});
+    var filesArray = [file];
+    if (navigator.canShare({files: filesArray})) {
+      navigator.share({
+        text: randomChallenge?.challenge,
+        files: filesArray,
+        title: randomChallenge?.challenge
+      });
+    }
   }
 
   function changeSite() {
@@ -110,9 +128,19 @@ const VideoRecorderClient = () => {
       {isRecording && randomChallenge && (
         <p className="text-3xl text-center">{randomChallenge.challenge}</p>
       )}
-      {currentVideo && (
+      {currentVideo && !isUploading && (
+        <div className="flex flex-row gap-8">
+          <button onClick={upload} className="btn btn-blue flex-initial h-12">
+            Hochladen!
+          </button>
+          <button onClick={share} className="btn btn-blue flex-initial h-12">
+            Teilen!
+          </button>
+        </div>
+      )}
+      {isUploading && (
         <div className="flex flex-row items-center justify-between p-8 gap-4">
-          <p className="text-2xl">Sending ...</p>
+          <p className="text-2xl">Überträgt ...</p>
           <LoadingSpinner></LoadingSpinner>
         </div>
       )}
