@@ -60,17 +60,38 @@ const VideoRecorderClient = () => {
     setIsUploading(false);
   }
 
+  function getFileExtension(mimeType: string) {
+    const regex = /video\/(?<ext>[^;]*)/;
+    const result = regex.exec(mimeType);
+    return result?.groups?.ext;
+  }
+
+  async function download() {
+    if (!currentVideo) {
+      return;
+    }
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.setAttribute("style","display: none");
+    const url = window.URL.createObjectURL(currentVideo);
+    var ext = getFileExtension(currentVideo.type);
+    a.href = url;
+    a.download = `video.${ext}`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
   async function share() {
     if (!currentVideo) {
       return;
     }
-    var file = new File([currentVideo], "video.webm", {type: 'video/webm'});
-    var filesArray = [file];
-    if (navigator.canShare({files: filesArray})) {
+    var ext = getFileExtension(currentVideo.type);
+    var file = new File([currentVideo], `video.${ext}`, { type: currentVideo.type });
+    if (navigator.canShare({ files: [file] })) {
       navigator.share({
         text: randomChallenge?.challenge,
-        files: filesArray,
-        title: randomChallenge?.challenge
+        files: [file],
+        title: randomChallenge?.challenge,
       });
     }
   }
@@ -129,12 +150,15 @@ const VideoRecorderClient = () => {
         <p className="text-3xl text-center">{randomChallenge.challenge}</p>
       )}
       {currentVideo && !isUploading && (
-        <div className="flex flex-row gap-8">
+        <div className="flex flex-col gap-4">
           <button onClick={upload} className="btn btn-blue flex-initial h-12">
             Hochladen!
           </button>
           <button onClick={share} className="btn btn-blue flex-initial h-12">
             Teilen!
+          </button>
+          <button onClick={download} className="btn btn-blue flex-initial h-12">
+            Download!
           </button>
         </div>
       )}
